@@ -1,0 +1,27 @@
+{
+  "name": "members-only-app",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --envfile .env app.js",
+    "devstart": "nodemon --envfile .env app.js",
+    "serverstart": "SET DEBUG=members-only-app:* & npm run devstart"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "express-validator": "^7.0.1",
+    "mongoose": "^8.2.3",
+    "passport": "^0.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
