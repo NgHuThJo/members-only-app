@@ -1,0 +1,16 @@
+<h1><%= title %></h1>
+<form method="post">
+  <label for="firstName">First name: </label>
+  <input type="text" id="firstName" name="firstName" required value="<%=
+  !locals.user ? "" : locals.user.first_name %>">
+  <label for="lastName">Last name: </label>
+  <input type="text" id="lastName" name="lastName" required value="<%=
+  !locals.user ? "" : locals.user.last_name %>">
+  <label for="userName">User name: </label>
+  <input type="text" id="userName" name="userName" required value="<%=
+  !locals.user ? "" : locals.user.user_name %>">
+  <label for="password">Password: </label>
+  <input type="password" id="password" name="password" required value="<%=
+  !locals.user ? "" : locals.user.password %>">
+  <button type="submit">Submit</button>
+</form>

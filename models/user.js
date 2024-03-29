@@ -11,7 +11,7 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  username: {
+  user_name: {
     type: String,
     required: true,
   },
@@ -21,7 +21,6 @@ const UserSchema = new Schema({
   },
   is_member: {
     type: Boolean,
-    required: true,
   },
   messages: [
     {

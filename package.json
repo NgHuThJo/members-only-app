@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node --envfile .env app.js",
-    "devstart": "nodemon --envfile .env app.js",
+    "start": "node --env-file .env app.js",
+    "devstart": "nodemon --env-file .env app.js",
     "serverstart": "SET DEBUG=members-only-app:* & npm run devstart"
   },
   "keywords": [],
@@ -16,10 +16,12 @@
     "connect-mongo": "^5.1.0",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
     "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
     "mongoose": "^8.2.3",
-    "passport": "^0.7.0"
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"
