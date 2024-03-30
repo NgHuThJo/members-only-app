@@ -10,15 +10,8 @@ router.get("/signup", indexController.signUpGet);
 router.post("/signup", indexController.signUpPost);
 
 router.get("/login", indexController.logInGet);
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/loginsuccess",
-    failureRedirect: "/loginfailure",
-  })
-);
+router.post("/login", indexController.logInPost);
 
-router.get("/loginfailure", indexController.logInFailure);
 router.get("/loginsuccess", indexController.logInSuccess);
 
 router.get("/logout", (req, res, next) => {

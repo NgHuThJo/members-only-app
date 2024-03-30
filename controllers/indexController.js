@@ -2,6 +2,7 @@ const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("layout", {
@@ -89,14 +90,14 @@ exports.logInGet = (req, res, next) => {
   });
 };
 
+exports.logInPost = (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/loginsuccess",
+  })(req, res, next);
+};
+
 exports.logInSuccess = (req, res, next) => {
   res.render("layout", {
     content: "loginSuccess",
-  });
-};
-
-exports.logInFailure = (req, res) => {
-  res.render("layout", {
-    content: "loginFailure",
   });
 };
