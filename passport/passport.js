@@ -4,8 +4,6 @@ const LocalStrategy = require("passport-local");
 const passport = require("passport");
 
 const strategy = new LocalStrategy(async (userName, password, done) => {
-  console.log(userName);
-
   try {
     const user = await User.findOne({ user_name: userName });
 
@@ -38,4 +36,4 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-module.exports = strategy;
+passport.use(strategy);

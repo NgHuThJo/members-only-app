@@ -43,8 +43,7 @@ app.use(
   })
 );
 // Passport config
-const strategy = require("./passport/passport");
-passport.use(strategy);
+require("./passport/passport");
 app.use(passport.session());
 
 // For debugging purposes

@@ -65,6 +65,12 @@ exports.logInGet = (req, res, next) => {
   });
 };
 
+exports.logInSuccess = (req, res, next) => {
+  res.render("layout", {
+    content: "loginSuccess",
+  });
+};
+
 exports.logInFailure = (req, res) => {
   res.render("layout", {
     content: "loginFailure",

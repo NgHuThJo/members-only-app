@@ -12,5 +12,8 @@
   <label for="password">Password: </label>
   <input type="password" id="password" name="password" required value="<%=
   !locals.user ? "" : locals.user.password %>">
+  <label for="confirmPassword">Confirm password: </label>
+  <input type="password" id="confirmPassword" name="confirmPassword" required
+  value="<%= !locals.user ? "" : locals.user.confirmPassword %>">
   <button type="submit">Submit</button>
 </form>
