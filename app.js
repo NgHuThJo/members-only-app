@@ -1,5 +1,4 @@
 const express = require("express");
-const http = require("http");
 const path = require("path");
 const mongoose = require("mongoose");
 const mongoStore = require("connect-mongo");
@@ -12,13 +11,6 @@ const indexRouter = require("./routes/index");
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Create server
-const server = http.createServer(app);
-
-// Start server and listen on specified port and optional hostname
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-});
 // Data base connection
 const main = async () => {
   await mongoose.connect(process.env.DATABASE_URL);
@@ -26,6 +18,11 @@ const main = async () => {
 
 main().catch((err) => {
   console.log(err);
+});
+
+// Start server and listen on specified port and optional hostname
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
 
 // View engine setup
@@ -45,8 +42,17 @@ app.use(
     }),
   })
 );
+// Passport config
+const strategy = require("./passport/passport");
+passport.use(strategy);
 app.use(passport.session());
-require("./passport/passport");
+
+// For debugging purposes
+app.use((req, res, next) => {
+  console.log(req.session);
+  console.log(req.user);
+  next();
+});
 
 // Express setup
 app.use(express.json());

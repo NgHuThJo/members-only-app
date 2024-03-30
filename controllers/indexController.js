@@ -4,7 +4,6 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const createInputTextCheck =
   require("../express-validator/customValidationChains").createInputTextCheck;
-const passport = require("passport");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("layout", {
@@ -28,8 +27,6 @@ exports.signUpPost = [
   // Business logic
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-
-    console.log(req.body.firstName);
 
     const user = new User({
       first_name: req.body.firstName,
@@ -68,7 +65,8 @@ exports.logInGet = (req, res, next) => {
   });
 };
 
-exports.logInPost = passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/",
-});
+exports.logInFailure = (req, res) => {
+  res.render("layout", {
+    content: "loginFailure",
+  });
+};
