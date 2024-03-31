@@ -5,9 +5,17 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 
+function isAdmin(req) {
+  return req.isAuthenticated() && req.user.is_admin;
+}
+
 exports.index = asyncHandler(async (req, res, next) => {
+  const allUsers = await User.find({}).populate("messages").exec();
+
   res.render("layout", {
     isLoggedIn: req.isAuthenticated(),
+    isAdmin: Boolean(isAdmin(req)),
+    users: allUsers,
     content: "index",
   });
 });
@@ -50,6 +58,7 @@ exports.signUpPost = [
   body("confirmPassword")
     .custom((value, { req }) => value === req.body.password)
     .withMessage("Passwords do not match."),
+
   // Business logic
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -59,6 +68,7 @@ exports.signUpPost = [
       last_name: req.body.lastName,
       user_name: req.body.userName,
       password: req.body.password,
+      is_admin: req.body.isAdmin ? true : false,
     });
 
     if (!errors.isEmpty()) {
@@ -198,8 +208,34 @@ exports.createMessagePost = [
     } else {
       const user = req.user;
 
-      user.message.push(message._id);
-      console.log(user);
+      user.messages.push(message._id);
+
+      await Promise.all([
+        User.findByIdAndUpdate(user._id, user, {}),
+        message.save(),
+      ]);
+
+      // res.redirect function call ends request-response cycle
+      res.redirect("/");
     }
   }),
 ];
+
+exports.deleteMessageGet = (req, res, next) => {
+  res.render("layout", {
+    title: "Delete message",
+    content: "deleteMessage",
+  });
+};
+
+exports.deleteMessagePost = asyncHandler(async (req, res, next) => {
+  const user = await User.findOne({ messages: req.params.id });
+
+  user.messages = user.messages.filter(
+    (messageId) => messageId != req.params.id
+  );
+
+  await User.findByIdAndUpdate(user._id, user, {});
+
+  res.redirect("/");
+});

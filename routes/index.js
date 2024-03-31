@@ -19,7 +19,10 @@ router.get("/logout", indexController.logOut);
 router.get("/membership", indexController.membershipGet);
 router.post("/membership", indexController.membershipPost);
 
-router.get("/createmessage", indexController.createMessageGet);
-// router.post("/createmessage", index.indexController.createMessagePost);
+router.get("/newmessage", indexController.createMessageGet);
+router.post("/newmessage", indexController.createMessagePost);
+
+router.get("/delete/message/:id", indexController.deleteMessageGet);
+router.post("/delete/message/:id", indexController.deleteMessagePost);
 
 module.exports = router;

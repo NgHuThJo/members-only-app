@@ -22,6 +22,9 @@ const UserSchema = new Schema({
   is_member: {
     type: Boolean,
   },
+  is_admin: {
+    type: Boolean,
+  },
   messages: [
     {
       type: Schema.Types.ObjectId,

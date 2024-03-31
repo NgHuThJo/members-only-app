@@ -14,6 +14,8 @@
   !locals.user ? "" : locals.user.password %>">
   <label for="confirmPassword">Confirm password: </label>
   <input type="password" id="confirmPassword" name="confirmPassword" required />
+  <label for="isAdmin">Is admin? </label>
+  <input type="checkbox" id="isAdmin" name="isAdmin" value="true" />
   <button type="submit">Submit</button>
 </form>
 <% if(locals.errors) { %>

@@ -6,3 +6,18 @@
 <% if(isLoggedIn) { %>
 <a href="/newmessage">Create new message</a>
 <% } %>
+<section>
+  <% for(let i = 0; i < users.length; i++) { %> <%
+  users[i].messages.forEach((message) => { %>
+  <article>
+    <h2><%= message.title %></h2>
+    <p><%= message.message %></p>
+    <% if(isLoggedIn) { %>
+    <p>Author: <%= users[i].fullname %></p>
+    <p>Created: <%= message.timestamp %></p>
+    <% if(isAdmin) { %>
+    <a href="<%= "/delete" + message.url %>">Delete message</a>
+    <% } %> <% } %>
+  </article>
+  <% }) %> <% } %>
+</section>
