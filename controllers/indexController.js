@@ -125,6 +125,8 @@ exports.logOut = (req, res, next) => {
       res.clearCookie("connect.sid");
       res.redirect("/");
     });
+  } else {
+    res.end();
   }
 };
 
