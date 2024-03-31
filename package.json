@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "node --env-file .env app.js",
+    "start": "node app.js",
     "devstart": "nodemon --env-file .env -e ejs,js app.js",
     "serverstart": "SET DEBUG=members-only-app:* & npm run devstart"
   },
