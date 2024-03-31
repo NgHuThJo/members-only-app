@@ -2,4 +2,7 @@
 <a href="/signup">Sign up</a>
 <a href="/login">Log in</a>
 <a href="/logout">Log out</a>
-<a href="/membership"></a>
+<a href="/membership">Acquire membership</a>
+<% if(isLoggedIn) { %>
+<a href="/newmessage">Create new message</a>
+<% } %>

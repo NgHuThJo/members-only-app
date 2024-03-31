@@ -1,3 +1,4 @@
+const Message = require("../models/message");
 const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
@@ -6,6 +7,7 @@ const passport = require("passport");
 
 exports.index = asyncHandler(async (req, res, next) => {
   res.render("layout", {
+    isLoggedIn: req.isAuthenticated(),
     content: "index",
   });
 });
@@ -93,6 +95,7 @@ exports.logInGet = (req, res, next) => {
 exports.logInPost = (req, res, next) => {
   passport.authenticate("local", {
     successRedirect: "/loginsuccess",
+    failureRedirect: "/login",
   })(req, res, next);
 };
 
@@ -101,3 +104,102 @@ exports.logInSuccess = (req, res, next) => {
     content: "loginSuccess",
   });
 };
+
+exports.logOut = (req, res, next) => {
+  if (req.user) {
+    req.logout((err) => {
+      if (err) {
+        next(err);
+      }
+
+      res.clearCookie("connect.sid");
+      res.redirect("/");
+    });
+  }
+};
+
+exports.membershipGet = (req, res, next) => {
+  if (req.isAuthenticated() && !req.user.is_member) {
+    res.render("layout", {
+      title: "Member password",
+      content: "membership",
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.membershipPost = [
+  body("password")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Password must not be empty.")
+    .custom((password) => {
+      return password === process.env.MEMBER_PASSWORD;
+    })
+    .withMessage("Wrong password.")
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render("layout", {
+        title: "Member password",
+        errors: errors.array(),
+        content: "membership",
+      });
+    } else {
+      const user = req.user;
+
+      user.is_member = true;
+
+      await User.findByIdAndUpdate(user._id, user, {});
+      res.redirect("/");
+    }
+  }),
+];
+
+exports.createMessageGet = (req, res, next) => {
+  res.render("layout", {
+    title: "Create new message",
+    content: "newMessage",
+  });
+};
+
+exports.createMessagePost = [
+  body("title")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Title must not be empty.")
+    .escape(),
+  body("message")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Message must not be empty.")
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const message = new Message({
+      title: req.body.title,
+      timestamp: new Date(),
+      message: req.body.message,
+    });
+
+    if (!errors.isEmpty()) {
+      res.render("layout", {
+        title: "Create new message",
+        message,
+        errors: errors.array(),
+        content: "newMessage",
+      });
+    } else {
+      const user = req.user;
+
+      user.message.push(message._id);
+      console.log(user);
+    }
+  }),
+];

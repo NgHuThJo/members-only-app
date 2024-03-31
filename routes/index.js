@@ -14,15 +14,12 @@ router.post("/login", indexController.logInPost);
 
 router.get("/loginsuccess", indexController.logInSuccess);
 
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      next(err);
-    }
+router.get("/logout", indexController.logOut);
 
-    res.clearCookie("connect.sid");
-    res.redirect("/");
-  });
-});
+router.get("/membership", indexController.membershipGet);
+router.post("/membership", indexController.membershipPost);
+
+router.get("/createmessage", indexController.createMessageGet);
+// router.post("/createmessage", index.indexController.createMessagePost);
 
 module.exports = router;
