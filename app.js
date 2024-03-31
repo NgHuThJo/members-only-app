@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 
 // Data base connection
 const main = async () => {
-  await mongoose.connect(process.env.DATABASE_URL);
+  await mongoose.connect(process.env.MONGO_URL);
 };
 
 main().catch((err) => {
@@ -36,7 +36,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     store: mongoStore.create({
-      mongoUrl: process.env.DATABASE_URL,
+      mongoUrl: process.env.MONGO_URL,
       autoRemove: "interval",
       autoRemoveInterval: 10, // In minutes. Default.
     }),
